@@ -1,7 +1,7 @@
 '''
 Obtained this function from class project
 '''
-# Standard Imports
+
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -21,24 +21,22 @@ def plotter_classifier(w,basis_func, x, y, title=None, axis=None, grid_density=1
 			axis: a matplotlib axis.  If one is not provided then "plt" will be used
 			grid_density: How dense of a grid should be used for rendering the decision boundary
 	'''
-	# Makes sure the data is only 2D
 	if (x.shape[1] != 2):
 		raise ValueError('plotter_classifier: function can only be called using two-dimensional data (features)')
 
-	# Define an axis if one isnt passed in
+
 	if(axis == None): 
 		axis = plt 
-	# axis.hold(True)
+
 	axis.plot(x[:,0],x[:,1], color="black", visible=False )
 
-	# TODO: can probably replace with final dot plot and use transparency for image (?)
 	ax = axis.axis()
 	xticks = np.linspace(ax[0],ax[1],grid_density)
 	yticks = np.linspace(ax[2],ax[3],grid_density)
 	grid = np.meshgrid( xticks, yticks )
 	x_grid = np.column_stack( (grid[0].flatten(), grid[1].flatten()) )
 
-	# Plot the colors
+
 	grid_phi = basis_func(x_grid)
 	y_hat_grid = np.argmax(np.matmul(grid_phi, w), 1)
 	axis.imshow( y_hat_grid.reshape( (len(xticks),len(yticks)) ), extent=ax, interpolation='nearest',origin='lower',alpha=0.5, aspect='auto' )
